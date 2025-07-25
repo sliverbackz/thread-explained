@@ -43,3 +43,33 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+
+
+# Kotlin build
+/build/
+
+# IntelliJ IDEA
+.idea/
+
+# OS-specific
+Thumbs.db
+
+# Gradle
+.gradle/
+**/build/
+
+# Logs
+*.log
+
+# Cache
+.cache/
+*.class
+
+# Kotlin-specific (if using kapt or generated code)
+kotlin/**/build/
+kotlin/**/out/
+
+# Optional: Local environment configs
+*.env
+local.properties
