@@ -1,7 +1,7 @@
 import kotlin.concurrent.thread
 
 
-//java way
+//By extending Thread class
 class HelloThread : Thread() {
     override fun run() {
         val helloMsg = "Hello, i'm $name"
@@ -14,7 +14,7 @@ fun spawnHelloThread() {
     helloThread.printAll()
 }
 
-//java way
+//By implementing Runnable interface
 class HelloRunnable : Runnable {
     override fun run() {
         val threadName = Thread.currentThread().name
@@ -28,11 +28,9 @@ fun spawnHelloRunnable() {
     helloRunnable.printAll()
 }
 
-//java way
+//Kotlin’s SAM-conversion + lambda syntax
 fun spawnInLambdaWay() {
-    Thread {
-        println("Hello, i'm ${Thread.currentThread().name}")
-    }.start()
+    Thread { println("Hello, i'm ${Thread.currentThread().name}") }.start()
 }
 
 //kotlin way using thread fun from kotlin.concurrent.thread
@@ -46,10 +44,10 @@ fun spawnKotlinWay() {
 
 
 fun main() {
-    val t1 = HelloThread()
-    val t2 = HelloThread()
-    t1.start()
-    t2.start()
+    spawnHelloThread()
+    spawnHelloRunnable()
+    spawnInLambdaWay()
+    spawnKotlinWay()
     println("Finished")
 }
 
