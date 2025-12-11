@@ -1,55 +1,50 @@
-import kotlin.concurrent.thread
-import kotlin.text.toInt
+// This example shows two situations:
+// 1. When the main thread crashes → the whole program stops.
+// 2. When a custom thread crashes → only that thread stops, but the main continues.
+// If you want to test Case 2, you can comment line 7 and 8.
 
-
-//If main thread is encountered an exception, custom threads won't reach its execution.
 fun main() {
-    mainDoesNotAffectedByCustomThread()
-    customThreadNeverWork()
+    println("=== Case 1: Main thread crashes ===")
+    mainThreadCrashes()
+
+    println("\n=== Case 2: Custom thread crashes ===")
+    customThreadCrashes()
 }
 
-//Main failed cases
-//Process finished with exit code 1 (error)
-fun customThreadNeverWork() {
-    val mainThread = Thread.currentThread()
-    println("Hello from the main ${mainThread.name}")
-    print(2 / 0)
-    //below code block will never work coz of main is in exception
-    val t1 = thread(block = {
-        println("Hello from the a custom thread!")
-    })
-    println("Print custom thread name ${t1.name}")
-    println("Bye from the main ${mainThread.name}")
+// ------------------------------------------------------------
+// Case 1: MAIN THREAD CRASHES
+// ------------------------------------------------------------
+fun mainThreadCrashes() {
+    println("Main thread is running...")
+
+    // This line throws an exception in the main thread.
+    // When it crashes, the whole JVM process stops immediately.
+    // Nothing after this line will run.
+    println(10 / 0)
+
+    // This line will never be reached.
+    println("This never prints because main has crashed!")
 }
 
-// program will be terminated
-fun divideByZeroCaughtInMainThread() {
-    println(2 / 0)
-    println("I'm printed after being terminated!") // this will never be printed
-    //The code 1 means that the process was finished with an error.
-}
-
-
-//If custom threads are encountered an exception, main thread does affect at all.
-class CustomThread : Thread() {
+// ------------------------------------------------------------
+// Case 2: CUSTOM THREAD CRASHES
+// ------------------------------------------------------------
+class FailingThread : Thread() {
     override fun run() {
-        "s".toInt()
+        println("Custom thread started...")
+        // This will throw an exception inside this custom thread only.
+        "abc".toInt()   // NumberFormatException
+        println("This will never be printed.")
     }
 }
 
-fun divideByZeroCaughtInCustomThread() {
-    val thread = CustomThread()
-    thread.start()
-    thread.join() // wait for the thread with an exception to terminate
-    println("I'm printed!") // this can still be printed
-    //The code 0 means that the process is successfully finished.
-}
-
-fun mainDoesNotAffectedByCustomThread() {
-    val t = CustomThread()
+fun customThreadCrashes() {
+    val t = FailingThread()
     t.start()
-    t.join()
-    println("I'm ${Thread.currentThread().name}")
+    t.join()  // Wait for custom thread to finish (even if it crashed)
+
+    // The main thread is still alive even though the custom thread failed.
+    println("Main thread continues normally after custom thread failure.")
 }
 
 
