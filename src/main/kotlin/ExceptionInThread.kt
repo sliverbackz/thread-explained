@@ -9,7 +9,7 @@ fun main() {
 }
 
 //Main failed cases
-//Process finished with exit code 1 //error
+//Process finished with exit code 1 (error)
 fun customThreadNeverWork() {
     val mainThread = Thread.currentThread()
     println("Hello from the main ${mainThread.name}")
