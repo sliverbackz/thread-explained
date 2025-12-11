@@ -1,3 +1,5 @@
+package extensions
+
 fun Thread.printAll() {
     println("Name: ${name}")
     println("ID: ${id}")
