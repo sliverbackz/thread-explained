@@ -4,7 +4,7 @@
  * @property message The text to be printed each time the thread runs a cycle.
  * @property time The number of times the message will be printed.
  *
- * When the thread is started, it executes independently from the main thread.
+ * When the thread is started, it executes independently of the main thread.
  * The `run()` function loops for the specified count, printing the message and
  * pausing for one second (`sleep(1000)`) on each iteration. This allows timed
  * notifications without blocking the caller.
